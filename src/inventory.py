@@ -1,4 +1,6 @@
 import pygame
+import os.path
+from configs import HOTBAR_WIDTH, HOTBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Inventory:
     def __init__(self):
@@ -32,13 +34,34 @@ class Inventory:
     def selectItem(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 4:
-                self.selectedItem += 1
-            elif event.button == 5:
                 self.selectedItem -= 1
+            elif event.button == 5:
+                self.selectedItem += 1
         if self.selectedItem < 0: # loop round
             self.selectedItem = len(self.storedItems) - 1
         if self.selectedItem >= len(self.storedItems):
-            self.selectedItem = 0        
+            self.selectedItem = 0
+
+
+    def render(self, screen):
+        img = pygame.image.load(os.path.join("src", "Graphics", f"Hotbar{self.selectedItem + 1}.png"))
+        img = pygame.transform.scale(img, (HOTBAR_WIDTH, HOTBAR_HEIGHT))
+        screen.blit(img, ((SCREEN_WIDTH - HOTBAR_WIDTH)/2, SCREEN_HEIGHT - HOTBAR_HEIGHT*1.1))
+
+        pos = [(235, 548), (277, 549), (318, 547), (367, 545), (422, 543), (467, 539), (508, 536), (553, 531)]
+
+        boxWidth = 70
+
+        for index, item in enumerate(self.storedItems):
+            if item != None:
+                w, h = item.width, item.height
+                scale = boxWidth / w
+                img = item.img
+                img = pygame.transform.scale(img, (boxWidth, int(h * scale)))
+                screen.blit(img, (pos[index][0] - boxWidth/2, pos[index][1] - (h * scale)/2))
+
+
+
 
 
 if __name__ == "__main__":

@@ -5,6 +5,10 @@ class World:
     def __init__(self):
         self.entities = [] # list of entities in the world
 
+    def update(self):
+        for ent in self.entities:
+            ent.update(self)
+
     
     def addEntity(self, entity):
         self.entities.append(entity)
@@ -16,4 +20,4 @@ class World:
     
     def renderEntities(self, screen, cam):
         for ent in self.entities:
-            screen.blit(ent.img, (ent.x + cam.x + SCREEN_WIDTH/2, ent.y + cam.y + SCREEN_HEIGHT/2))
+            screen.blit(ent.img, (ent.x + cam.x + (SCREEN_WIDTH - ent.width)/2, ent.y + cam.y + (SCREEN_HEIGHT - ent.height)/2)) # TODO center the entity

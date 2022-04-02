@@ -1,7 +1,9 @@
 """
-Items that can be picked up by the player and placed in the inventory
+Items that have been picked up by the player and placed in the inventory
 """
-
+from configs import *
+import pygame
+import os.path
 
 class Item:
     def __init__(self) -> None:
@@ -56,6 +58,9 @@ class CookedFrog(Item):
 class DeadRabbit(Item):
     def __init__(self) -> None:
         super().__init__()
+        self.width, self.height = RABBIT_HEIGHT, RABBIT_WITDTH
+        img = pygame.image.load(os.path.join("src", "Graphics", "DeadRabbit.png"))
+        self.img = pygame.transform.scale(img, (RABBIT_HEIGHT, RABBIT_WITDTH))
 
 
 class CookedRabbit(Item):

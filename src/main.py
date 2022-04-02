@@ -15,6 +15,7 @@ class Game:
 
     def updateEvent(self, event):
         self.player.inventory.selectItem(event)
+        self.player.attack(event, self.world.entities, self.world)
 
         #####################
         # REMOVE
@@ -31,6 +32,7 @@ class Game:
         self.player.update()
         if self.player.alive == False:
             self.gameOver()
+        self.world.update()
         self.cam.move(self.player)
 
     def render(self):
@@ -63,6 +65,9 @@ while True: # Main game loop
     game.render()
     for event in pygame.event.get():
         game.updateEvent(event)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                print(pygame.mouse.get_pos())
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()

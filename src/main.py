@@ -10,6 +10,9 @@ class Game:
         self.player = Player()
         self.cam = Camera()
 
+    def updateEvent(self, event):
+        self.player.inventory.selectItem(event)
+
     def update(self):
         '''
         Updates game based on physics,
@@ -42,6 +45,7 @@ while True: # Main game loop
     game.update()
     game.render()
     for event in pygame.event.get():
+        game.updateEvent(event)
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()

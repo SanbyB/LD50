@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 from physics import Physics
+from inventory import Inventory
 from configs import *
 
 
@@ -8,6 +9,7 @@ from configs import *
 class Player(Physics):
     def __init__(self):
         super().__init__(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+        self.inventory = Inventory()
 
     def update(self):
         super().update()

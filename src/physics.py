@@ -12,7 +12,6 @@ class Physics:
 
     def update(self):
         self.applyVel()
-        print(self.x, self.y)
 
 
     def applyVel(self): # allows the movement of the objects

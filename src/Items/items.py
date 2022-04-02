@@ -42,3 +42,26 @@ class Campfire(Item):
     def __init__(self) -> None:
         super().__init__()
 
+
+class DeadFrog(Item):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class CookedFrog(Item):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class DeadRabbit(Item):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class CookedRabbit(Item):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+
+

@@ -9,6 +9,11 @@ class Inventory:
         self.selectedItem = 0 # index of the item in hand
 
     def update(self):
+        # for index, item in enumerate(self.storedItems):
+        #     if item != None:
+        #         if item.id == "axe" or item.id == "spear":
+        #             if item.uses <= 0:
+        #                 self.storedItems[index] = None
         pass
 
     def addToInventory(self, item):
@@ -27,6 +32,7 @@ class Inventory:
         for index, slot in enumerate(self.storedItems):
             if slot == item: # might need to change this to a type or id
                 self.storedItems[index] = None
+                self.inventoryFull = False
                 return 0 # succesful remove
         return 1 # item not in inventory
 

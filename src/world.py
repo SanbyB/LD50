@@ -21,6 +21,8 @@ class World:
 
         self.entities.append(RabbitHole(np.random.randint(-1800, -200), np.random.randint(-1400, 1400), self, player))
         self.entities.append(RabbitHole(np.random.randint(200, 1800), np.random.randint(-1400, 1400), self, player))
+        self.entities.append(RabbitHole(np.random.randint(-1800, -200), np.random.randint(-1400, 1400), self, player))
+        self.entities.append(RabbitHole(np.random.randint(200, 1800), np.random.randint(-1400, 1400), self, player))
 
         self.clock = 0
         

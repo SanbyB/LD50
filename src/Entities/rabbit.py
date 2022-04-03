@@ -87,3 +87,6 @@ class RabbitHole:
 
     def spawn(self):
         self.world.addEntity(Rabbit(self.x + np.random.randint(-200, 200), self.y + np.random.randint(-200, 200), self.world, self, self.player))
+
+    def takeDamage(self, amount):
+        pass

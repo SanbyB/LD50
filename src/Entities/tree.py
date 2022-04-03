@@ -11,9 +11,12 @@ class Tree:
         self.width, self.height = TREE_WIDTH, TREE_HEIGHT
         img = pygame.image.load(os.path.join("src", "Graphics", f"Tree{np.random.randint(1, 5)}.png"))
         self.img = pygame.transform.scale(img, (TREE_WIDTH, TREE_HEIGHT))
-        self.hp = 20
+        self.hp = 2
         self.alive = False
         self.item = Log()
 
     def update(self, world):
         pass
+
+    def takeDamage(self, amount):
+        self.hp = 0

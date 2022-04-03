@@ -1,10 +1,12 @@
 import sys
 import pygame
 from camera import Camera
+from configs import SCREEN_WIDTH, SCREEN_HEIGHT
 from window import Window
 from player import Player
 from world import World
-from Entities.rabbit import Rabbit
+from craft import Craft
+import os.path
 
 class Game:
     def __init__(self):
@@ -12,21 +14,32 @@ class Game:
         self.player = Player()
         self.cam = Camera()
         self.world = World(self.player)
+        self.craft = Craft(self.player.inventory)
+        self.notStarted = True
 
     def updateEvent(self, event):
         self.player.inventory.selectItem(event)
         self.player.attack(event, self.world.entities, self.world)
+        self.craft.buy(event)
 
     def update(self):
         '''
         Updates game based on physics,
         game mechanics and player input
         '''
-        self.player.update()
-        if self.player.alive == False:
-            self.gameOver()
-        self.world.update(self.player)
-        self.cam.move(self.player)
+        if self.notStarted:
+            keys = pygame.key.get_pressed()
+
+            if keys[pygame.K_RETURN]:
+                self.notStarted = False
+        else:
+            self.player.update()
+            if self.player.alive == False:
+                self.gameOver()
+            self.world.update(self.player)
+            self.cam.move(self.player)
+            self.craft.update()
+            
 
     def render(self):
         '''
@@ -37,12 +50,30 @@ class Game:
         self.window.background(self.cam)
         self.world.renderEntities(self.window.screen, self.cam, self.player)
         self.player.render(self.window.screen)
+        self.craft.openWindow(self.window.screen)
+
+        if self.player.alive == False:
+            screen = self.window.screen
+
+            img = pygame.image.load(os.path.join("src", "Graphics", "Gameover.png"))
+            img = pygame.transform.scale(img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+            screen.blit(img, (0,0))
+
+        if self.notStarted:
+            screen = self.window.screen
+
+            img = pygame.image.load(os.path.join("src", "Graphics", "Start.png"))
+            img = pygame.transform.scale(img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+            screen.blit(img, (0,0))
+
         self.window.update()
+        
     
     def gameOver(self):
-        # delete all entities
-        # display end screen
-        pass
+
+        self.world.entities = []
         
 
 

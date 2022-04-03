@@ -38,7 +38,7 @@ class Player(Physics):
         self.cook()
         self.foodClock += 1 # update the players food clock
         self.attackClock += 1
-        if self.foodClock == 823:
+        if self.foodClock == 283:
             self.updateHunger()
             self.foodClock = 0
 

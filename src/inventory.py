@@ -50,7 +50,7 @@ class Inventory:
 
         pos = [(235, 548), (277, 549), (318, 547), (367, 545), (422, 543), (467, 539), (508, 536), (553, 531)]
 
-        boxWidth = 70
+        boxWidth = 50
 
         for index, item in enumerate(self.storedItems):
             if item != None:

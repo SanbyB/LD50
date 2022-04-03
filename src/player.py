@@ -101,7 +101,7 @@ class Player(Physics):
                             if ent.x - ent.width/2 < xClick + self.x - SCREEN_WIDTH/2 < ent.x + ent.width/2: # check x bounding box
                                 if ent.y - ent.height/2 < yClick + self.y - SCREEN_HEIGHT/2 < ent.y + ent.height/2: # check y bounding box
                                     ent.takeDamage(self.attackStrength)
-            else: # pick up item
+            elif ent.hp <= 0: # pick up item
                 if self.inventory.inventoryFull: # if inventory is full ignore
                     return
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -111,8 +111,9 @@ class Player(Physics):
                             if ent.x - ent.width/2 < xClick + self.x - SCREEN_WIDTH/2 < ent.x + ent.width/2: # check x bounding box
                                 if ent.y - ent.height/2 < yClick + self.y - SCREEN_HEIGHT/2 < ent.y + ent.height/2: # check y bounding box
                                     if (self.x - ent.x)**2 + (self.y - ent.y)**2 < 130**2:
-                                        self.inventory.addToInventory(ent.item)
-                                        world.removeEntity(ent)
+                                        if ent.item != None:
+                                            self.inventory.addToInventory(ent.item)
+                                            world.removeEntity(ent)
 
     def statusBars(self, screen):
         heart = pygame.image.load(os.path.join("src", "Graphics", "Heart.png"))

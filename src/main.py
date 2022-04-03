@@ -21,7 +21,7 @@ class Game:
         # REMOVE
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
-                self.world.addEntity(Rabbit(self.player.x, self.player.y))
+                self.world.addEntity(Rabbit(self.player.x, self.player.y, self.world))
         ##########################
 
     def update(self):

@@ -58,9 +58,6 @@ while True: # Main game loop
     game.render()
     for event in pygame.event.get():
         game.updateEvent(event)
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                print(pygame.mouse.get_pos())
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()

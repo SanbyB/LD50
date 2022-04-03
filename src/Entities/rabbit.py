@@ -55,7 +55,10 @@ class Rabbit(Physics):
             x = abs(self.x - self.hole.x)
             y = abs(self.y - self.hole.y)
 
-            theta = np.arctan(y/x)
+            theta = 90
+
+            if x > 1:
+                theta = np.arctan(y/x)
 
             self.vx = -signX * RABBIT_VEL * np.cos(theta)
             self.vy = -signY * RABBIT_VEL * np.sin(theta)

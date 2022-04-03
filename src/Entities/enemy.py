@@ -12,10 +12,15 @@ class Enemy(Physics):
         self.attackStrength = 4
         self.attackSpeed = 100
         self.clock = 0
+        self.hp = 20
 
-    def update(self):
+    def update(self, world):
+        super().update()
         self.clock += 1
         self.move()
+        if self.hp <= 0:
+            self.alive = False
+            world.removeEntity(self)
 
     def move(self):
         if self.attack():
@@ -35,7 +40,10 @@ class Enemy(Physics):
             x = abs(self.x - self.player.x)
             y = abs(self.y - self.player.y)
 
-            theta = np.arctan(y/x)
+            theta = 90
+
+            if x > 1:
+                theta = np.arctan(y/x)
 
             self.vx = -signX * self.vel * np.cos(theta)
             self.vy = -signY * self.vel * np.sin(theta)
@@ -46,3 +54,8 @@ class Enemy(Physics):
         if self.clock % 100 == 0:
                 self.vx = np.random.uniform(-self.vel, self.vel)
                 self.vy = np.random.uniform(-self.vel, self.vel)
+
+    def takeDamage(self, amount):
+        self.hp -= amount
+
+    

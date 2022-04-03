@@ -92,7 +92,6 @@ class Player(Physics):
         Also works as a pick up function for dead entities
         '''
         if self.attackClock < self.attackSpeed:
-            print("cannot attack")
             return
         
         for ent in entities:
@@ -110,7 +109,6 @@ class Player(Physics):
                             if ent.x - ent.width/2 < xClick + self.x - SCREEN_WIDTH/2 < ent.x + ent.width/2: # check x bounding box
                                 if ent.y - ent.height/2 < yClick + self.y - SCREEN_HEIGHT/2 < ent.y + ent.height/2: # check y bounding box
                                     ent.takeDamage(self.attackStrength)
-                                    print("hit")
                                     self.attackClock = 0
             elif ent.hp <= 0: # pick up item
                 if self.inventory.inventoryFull: # if inventory is full ignore
@@ -134,8 +132,13 @@ class Player(Physics):
         food = pygame.image.load(os.path.join("src", "Graphics", "Food.png"))
         food = pygame.transform.scale(food, (69, 45))
 
+        knife = pygame.image.load(os.path.join("src", "Graphics", "Knife.png"))
+        knife = pygame.transform.scale(knife, (39, 46))
+
         screen.blit(heart, (679, 184))
         screen.blit(food, (733, 184))
+        screen.blit(knife, (620, 184))
 
         pygame.draw.rect(screen, (240, 0, 0), (690, 180-6.5*self.hp, 26, 6.5*self.hp))
         pygame.draw.rect(screen, (136, 0, 21), (750, 180-13*self.hunger, 26, 13*self.hunger))
+        pygame.draw.rect(screen, (0, 20, 200), (630, 180 - (130/self.attackSpeed) * min(self.attackClock, self.attackSpeed), 26, (130/self.attackSpeed) * min(self.attackClock, self.attackSpeed)))

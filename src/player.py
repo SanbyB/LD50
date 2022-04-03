@@ -25,6 +25,7 @@ class Player(Physics):
     def update(self):
         super().update()
         if self.hp <= 0: # check if player has died
+            self.hp = 0
             self.alive = False
         self.move()
         self.clock += 1 # update the players clock
@@ -35,10 +36,11 @@ class Player(Physics):
 
 
     def render(self, surface):
-        img = pygame.image.load(os.path.join("src", "Graphics", "Player.png"))
+        img = pygame.image.load(os.path.join("src", "Graphics", "Player1.png"))
         img = pygame.transform.scale(img, (PLAYER_WIDTH, PLAYER_HEIGHT))
         surface.blit(img, ((SCREEN_WIDTH-PLAYER_WIDTH)/2, (SCREEN_HEIGHT-PLAYER_HEIGHT)/2, PLAYER_WIDTH, PLAYER_HEIGHT))
         self.inventory.render(surface)
+        self.statusBars(surface)
 
 
     def move(self):
@@ -63,8 +65,8 @@ class Player(Physics):
             self.vy = np.sign(self.vy) * WALK_VEL
 
         if self.vx**2 + self.vy**2 > WALK_VEL**2:
-            self.vx = self.vx/1.3
-            self.vy = self.vy/1.3
+            self.vx = self.vx * 0.85
+            self.vy = self.vy * 0.85
 
     
     def updateHunger(self):
@@ -73,9 +75,11 @@ class Player(Physics):
         if self.hunger < 3:
             self.hp -= 0.5
         if self.hunger < 2:
-            self.hp -= 0.25
+            self.hp -= 0.5
         if self.hunger < 1:
             self.hp -=0.25
+        if self.hunger < 0:
+            self.hunger = 0
 
 
     def attack(self, event, entities, world):
@@ -109,3 +113,16 @@ class Player(Physics):
                                     if (self.x - ent.x)**2 + (self.y - ent.y)**2 < 130**2:
                                         self.inventory.addToInventory(ent.item)
                                         world.removeEntity(ent)
+
+    def statusBars(self, screen):
+        heart = pygame.image.load(os.path.join("src", "Graphics", "Heart.png"))
+        heart = pygame.transform.scale(heart, (48, 51))
+
+        food = pygame.image.load(os.path.join("src", "Graphics", "Food.png"))
+        food = pygame.transform.scale(food, (69, 45))
+
+        screen.blit(heart, (679, 184))
+        screen.blit(food, (733, 184))
+
+        pygame.draw.rect(screen, (240, 0, 0), (690, 180-6.5*self.hp, 26, 6.5*self.hp))
+        pygame.draw.rect(screen, (136, 0, 21), (750, 180-13*self.hunger, 26, 13*self.hunger))

@@ -1,4 +1,5 @@
 from configs import FRICTION
+import numpy as np
 
 class Physics:
     '''
@@ -13,6 +14,7 @@ class Physics:
 
     def update(self):
         self.applyVel()
+        self.bounds()
 
 
     def applyVel(self): # allows the movement of the objects
@@ -20,5 +22,12 @@ class Physics:
         self.y += self.vy
         self.vx = self.vx * FRICTION
         self.vy = self.vy * FRICTION
+    
+    def bounds(self):
+        if abs(self.x) > 2000:
+            self.x = np.sign(self.x) * 2000
+        if abs(self.y) > 1600:
+            self.y = np.sign(self.y) * 1600
+        
 
     

@@ -32,7 +32,7 @@ class Game:
         self.player.update()
         if self.player.alive == False:
             self.gameOver()
-        self.world.update()
+        self.world.update(self.player)
         self.cam.move(self.player)
 
     def render(self):
@@ -40,9 +40,9 @@ class Game:
         Draws everything that is supposed
         to be seen by the player
         '''
-        self.window.clear() # clears the screen before
+        self.window.clear(self.player.x, self.player.y) # clears the screen before
         self.window.background(self.cam)
-        self.world.renderEntities(self.window.screen, self.cam)
+        self.world.renderEntities(self.window.screen, self.cam, self.player)
         self.player.render(self.window.screen)
         self.window.update()
     

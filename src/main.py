@@ -11,18 +11,11 @@ class Game:
         self.window = Window() # The screen var is what everything is to be rendered on
         self.player = Player()
         self.cam = Camera()
-        self.world = World()
+        self.world = World(self.player)
 
     def updateEvent(self, event):
         self.player.inventory.selectItem(event)
         self.player.attack(event, self.world.entities, self.world)
-
-        #####################
-        # REMOVE
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_p:
-                self.world.addEntity(Rabbit(self.player.x, self.player.y, self.world))
-        ##########################
 
     def update(self):
         '''

@@ -7,27 +7,36 @@ import numpy as np
 
 
 class Rabbit(Physics):
-    def __init__(self, x, y, world, hole):
+    def __init__(self, x, y, world, hole, player):
         super().__init__(x, y, RABBIT_WIDTH, RABBIT_HEIGHT)
         self.hole = hole
         self.hp = 5
         img = pygame.image.load(os.path.join("src", "Graphics", "Rabbit.png"))
         self.img = pygame.transform.scale(img, (RABBIT_WIDTH, RABBIT_HEIGHT))
-        self.clock = 0
         self.world = world
+        self.player = player
+        self.clock = 0
 
     def update(self, world):
         super().update()
-        self.clock +=1
-        self.hide()
+        self.clock += 1
+        if self.clock == 5000:
+            self.world.removeEntity(self)
+        self.move()
         if self.hp <= 0:
             self.alive = False
             self.world.removeEntity(self)
             self.world.addEntity(DroppedDeadRabbit(self.x, self.y))
 
     def move(self):
-        pass
-        #TODO
+        self.vx = self.vx * 1.05
+        self.vy = self.vy * 1.05
+        if (self.player.x - self.x)**2 + (self.player.y - self.y)**2 < 150**2:
+            self.hide()
+        else:
+            if self.clock % 100 == 0:
+                self.vx = np.random.uniform(-RABBIT_VEL, RABBIT_VEL)
+                self.vy = np.random.uniform(-RABBIT_VEL, RABBIT_VEL)
 
 
     def takeDamage(self, amount):
@@ -55,7 +64,7 @@ class Rabbit(Physics):
 
 
 class RabbitHole:
-    def __init__(self, x, y, world):
+    def __init__(self, x, y, world, player):
         self.x, self.y = x, y
         self.width, self.height = RABBIT_HOLE_WIDTH, RABBIT_HOLE_HEIGHT
         self.world = world
@@ -64,13 +73,14 @@ class RabbitHole:
         self.clock = 0
         img = pygame.image.load(os.path.join("src", "Graphics", "RabbitHole.png"))
         self.img = pygame.transform.scale(img, (RABBIT_HOLE_WIDTH, RABBIT_HOLE_HEIGHT))
+        self.player = player
 
     def update(self, world):
         self.hp = 10000000
         self.clock += 1
-        if self.clock == 100:
+        if self.clock == 1000:
             self.clock = 0
             self.spawn()
 
     def spawn(self):
-        self.world.addEntity(Rabbit(self.x + np.random.randint(-200, 200), self.y + np.random.randint(-200, 200), self.world, self))
+        self.world.addEntity(Rabbit(self.x + np.random.randint(-200, 200), self.y + np.random.randint(-200, 200), self.world, self, self.player))

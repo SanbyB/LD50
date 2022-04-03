@@ -17,9 +17,11 @@ class Player(Physics):
         at a faster rate for lower values, the player can find food to eat to replenish health
         '''
         self.hunger = 10
-        self.clock = 0
+        self.foodClock = 0
+        self.attackClock = 0
         self.attackRange = 130
         self.attackStrength = 3
+        self.attackSpeed = 50
         
 
     def update(self):
@@ -28,10 +30,13 @@ class Player(Physics):
             self.hp = 0
             self.alive = False
         self.move()
-        self.clock += 1 # update the players clock
-        if self.clock == 1000:
+        self.foodClock += 1 # update the players food clock
+        self.attackClock += 1
+        if self.foodClock == 1000:
             self.updateHunger()
-            self.clock = 0
+            self.foodClock = 0
+
+
 
 
 
@@ -86,6 +91,10 @@ class Player(Physics):
         '''
         Also works as a pick up function for dead entities
         '''
+        if self.attackClock < self.attackSpeed:
+            print("cannot attack")
+            return
+        
         for ent in entities:
             
             if ent.alive: # attack
@@ -101,6 +110,8 @@ class Player(Physics):
                             if ent.x - ent.width/2 < xClick + self.x - SCREEN_WIDTH/2 < ent.x + ent.width/2: # check x bounding box
                                 if ent.y - ent.height/2 < yClick + self.y - SCREEN_HEIGHT/2 < ent.y + ent.height/2: # check y bounding box
                                     ent.takeDamage(self.attackStrength)
+                                    print("hit")
+                                    self.attackClock = 0
             elif ent.hp <= 0: # pick up item
                 if self.inventory.inventoryFull: # if inventory is full ignore
                     return
@@ -114,6 +125,7 @@ class Player(Physics):
                                         if ent.item != None:
                                             self.inventory.addToInventory(ent.item)
                                             world.removeEntity(ent)
+
 
     def statusBars(self, screen):
         heart = pygame.image.load(os.path.join("src", "Graphics", "Heart.png"))

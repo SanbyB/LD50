@@ -7,7 +7,7 @@ from Items.droppedItems import DroppedStick, DroppedRock
 
 
 class World:
-    def __init__(self):
+    def __init__(self, player):
         self.entities = [] # list of entities in the world
         for i in range(-2, 3, 1):
             for j in range(-2, 3, 1):
@@ -16,8 +16,11 @@ class World:
             self.entities.append(DroppedStick(np.random.randint(-1800, 1800), np.random.randint(-1400, 1400)))
         for i in range(4):
             self.entities.append(DroppedRock(np.random.randint(-1800, 1800), np.random.randint(-1400, 1400)))
-        for i in range(4):
-            self.entities.append(RabbitHole(np.random.randint(-1800, 1800), np.random.randint(-1400, 1400), self))
+
+        self.entities.append(RabbitHole(np.random.randint(-1800, 0), np.random.randint(-1400, 1400), self, player))
+        self.entities.append(RabbitHole(np.random.randint(-1800, 0), np.random.randint(-1400, 1400), self, player))
+        self.entities.append(RabbitHole(np.random.randint(-1800, 0), np.random.randint(-1400, 1400), self, player))
+        self.entities.append(RabbitHole(np.random.randint(0, 1800), np.random.randint(-1400, 1400), self, player))
 
         self.clock = 0
         
